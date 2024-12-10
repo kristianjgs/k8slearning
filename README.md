@@ -50,16 +50,16 @@ kubeadm certs check-expiration
 ### definir el namespace por defecto
 
 - Se identifica el ns por defecto actual
-
-```bash
-kubectl config view | grep current-context
-```
+  
+  ```bash
+  kubectl config view | grep current-context
+  ```
 
 - Se realiza el cambio al ns deseado
-
-```bash
-kubectl config set-context --current --namespace="namespace"
-```
+  
+  ```bash
+  kubectl config set-context --current --namespace="namespace"
+  ```
 
 ### información de un nodo
 
@@ -82,154 +82,180 @@ kubectl uncordon <node-to-uncordon>
 ### PODS
 
 - información de un pod
-
-```bash
-kubectl describe pod <nombrepod> -n <nombrenamespace>
-```
+  
+  ```bash
+  kubectl describe pod <nombrepod> -n <nombrenamespace>
+  ```
 
 - Ejecutar un comando en un pod
-
-```bash
-kubectl exec -n <namespace> <podname> -- <comando>
-```
+  
+  ```bash
+  kubectl exec -n <namespace> <podname> -- <comando>
+  ```
 
 - ingresar a un pod en ejecución
-
-```bash
-kubectl exec -it <nombrepod> -- bash
-```
+  
+  ```bash
+  kubectl exec -it <nombrepod> -- bash
+  ```
 
 - cuando el pod tiene más de un contenedor se hace de la siguiente manera:
-
-```bash
-kubectl exec -it <nombrepod> -c <nombreContenedor> -- /bin/bash
-```
+  
+  ```bash
+  kubectl exec -it <nombrepod> -c <nombreContenedor> -- /bin/bash
+  ```
 
 - ver los logs de un mod
-
-```bash
-kubectl logs -n <namespace> <podname>
-```
+  
+  ```bash
+  kubectl logs -n <namespace> <podname>
+  ```
 
 - Copiar archivos desde un pod hacia una máquina local
-
-```bash
-kubectl cp -n <namespace> <podname>:/ruta/archivo.txt ./archivo.txt
-```
+  
+  ```bash
+  kubectl cp -n <namespace> <podname>:/ruta/archivo.txt ./archivo.txt
+  ```
 
 - Copiar archivos desde una máquina local hacia un pod
+  
+  ```bash
+  kubectl cp /ruta/archivo.txt -n <namespace> <podname>:/ruta/archivo.txt
+  ```
 
-```bash
-kubectl cp /ruta/archivo.txt -n <namespace> <podname>:/ruta/archivo.txt
-```
+### LABELS
+
+- Agregar un label a un deployment o pod en ejecución
+  
+  ```bash
+  kubectl label deployment/pod <objetname> "<label>=<value>"
+  ```
+
+- Eliminar un label a un deployment o pod en ejecución
+  
+  ```bash
+  kubectl label deployment/pod <objetname> "<label>-"
+  ```
+
+- Listar los deployments o pods existentes y muestra cual tiene activo un label especifico 
+  
+  ```bash
+  kubectl get deployment/pod -L <label> 
+  ```
+
+- Filtrar los objetos que cumplan con un filtro
+  
+  ```bash
+    kubectl get deployment/pod --selector="<label>=<value>"
+  ```
 
 ### DEPLOYMENTS
 
 - informacion de un deployment
-
-```bash
-kubectl describe <nombredeployment>
-```
+  
+  ```bash
+  kubectl describe <nombredeployment>
+  ```
 
 - ver el status de un cambio
-
-```bash
-kubectl rollout status deployment/nginx-deployment
-```
+  
+  ```bash
+  kubectl rollout status deployment/nginx-deployment
+  ```
 
 - chequear historia de un deployment
-
-```bash
-kubectl rollout history deployment/<nombredeployment>
-```
+  
+  ```bash
+  kubectl rollout history deployment/<nombredeployment>
+  ```
 
 - escribir en la causa del cambio para fines informativos
-
-```bash
-kubectl annotate deployment/nginx-deployment kubernetes.io/change-cause="image updated to 1.16.1"
-```
+  
+  ```bash
+  kubectl annotate deployment/nginx-deployment kubernetes.io/change-cause="image updated to 1.16.1"
+  ```
 
 - chequear una revisión en particular
-
-```bash
-kubectl rollout history deployment/nginx-deployment
-```
+  
+  ```bash
+  kubectl rollout history deployment/nginx-deployment
+  ```
 
 - hacer un rollback a la revisión previa
-
-```bash
-kubectl rollout undo deployment/nginx-deployment
-```
+  
+  ```bash
+  kubectl rollout undo deployment/nginx-deployment
+  ```
 
 - hacer un rollback a una revisión específica
-
-```bash
-kubectl rollout undo deployment/nginx-deployment --to-revision=2
-```
+  
+  ```bash
+  kubectl rollout undo deployment/nginx-deployment --to-revision=2
+  ```
 
 - pausando y resumiendo un rollout de un deployment
-
-```bash
-kubectl rollout pause deployment/nginx-deployment
-```
-
-```bash
-kubectl rollout resume deployment/nginx-deployment
-```
+  
+  ```bash
+  kubectl rollout pause deployment/nginx-deployment
+  ```
+  
+  ```bash
+  kubectl rollout resume deployment/nginx-deployment
+  ```
 
 - escalar un deployment aumentando las replicas
-
-```bash
-kubectl scale deployment/nginx-deployment --replicas=10
-```
+  
+  ```bash
+  kubectl scale deployment/nginx-deployment --replicas=10
+  ```
 
 - actualizar recursos
-
-```bash
-kubectl set resources deployment/nginx-deployment -c=nginx --limits=cpu=200m,memory=512Mi
-```
+  
+  ```bash
+  kubectl set resources deployment/nginx-deployment -c=nginx --limits=cpu=200m,memory=512Mi
+  ```
 
 - actualizar la imagen
-
-```bash
-kubectl set image deployment/nginx-deployment nginx=nginx:1.16.1
-```
+  
+  ```bash
+  kubectl set image deployment/nginx-deployment nginx=nginx:1.16.1
+  ```
 
 ### instalar el dashboard
 
 - Add kubernetes-dashboard repository
-
-```bash
-helm repo add kubernetes-dashboard https://kubernetes.github.io/dashboard/
-```
+  
+  ```bash
+  helm repo add kubernetes-dashboard https://kubernetes.github.io/dashboard/
+  ```
 
 - Deploy a Helm Release named "kubernetes-dashboard" using the kubernetes-dashboard chart
-
-```bash
-helm upgrade --install kubernetes-dashboard kubernetes-dashboard/kubernetes-dashboard --create-namespace --namespace kubernetes-dashboard
-```
+  
+  ```bash
+  helm upgrade --install kubernetes-dashboard kubernetes-dashboard/kubernetes-dashboard --create-namespace --namespace   kubernetes-dashboard
+  ```
 
 - exponer el dashboard para tener acceso desde el navegador
-
-```bash
-kubectl -n kubernetes-dashboard port-forward svc/kubernetes-dashboard-kong-proxy 8443:443
-```
+  
+  ```bash
+  kubectl -n kubernetes-dashboard port-forward svc/kubernetes-dashboard-kong-proxy 8443:443
+  ```
 
 - hacer bridge con el dashboard
-
-```bash
-sudo ssh -L 8443:localhost:8443 vagrant@192.168.121.111
-```
+  
+  ```bash
+  sudo ssh -L 8443:localhost:8443 vagrant@192.168.121.111
+  ```
 
 - acceder vía web
-
-https://localhost:8443/#/login
+  
+  https://localhost:8443/#/login
 
 - Se debe crear el service account y para esto se debe crear el siguiente YAML:
-
-```bash
-vim k8s-dashboard-account.yaml
-```
+  
+  ```bash
+  vim k8s-dashboard-account.yaml
+  ```
 
 - Se debe copiar el siguiente contenido en el yaml:
 
@@ -255,16 +281,16 @@ subjects:
 ```
 
 - Se crea el service account
-
-```bash
-kubectl create -f k8s-dashboard-account.yamlc
-```
+  
+  ```bash
+  kubectl create -f k8s-dashboard-account.yamlc
+  ```
 
 - Ahora se genera el token para poder ingresar al dashboard:
-
-```bash
-kubectl -n kube-system create token admin-user
-```
+  
+  ```bash
+  kubectl -n kube-system create token admin-user
+  ```
 
 El token generado es similar a lo siguiente:
 
@@ -280,10 +306,13 @@ kubectl -n kube-system create token admin-user --duration=876000h
 
 - pendientes:
   
+  - crear un register y configurarlo en el cluster
+  - multi cluster etcd
   - estudiar HorizontalPodAutoscaler https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale-walkthrough/
   - prometheus https://prometheus.io/docs/prometheus/latest/installation/
   - instalar herramientas de monitoreo (prometheus, grafana)
   - validar coreos y Tectonic dashboard
   - hacer ejemplos de storage
   - usar helm
+  - estudiar ISTIO
   - instalar con crio https://thelinuxnotes.com/index.php/deploying-a-kubernetes-cluster-on-fedora-coreos-with-cri-o/#:~:text=In%20this%20post,%20we%E2%80%99ll%20walk%20through%20setting%20up
