@@ -154,7 +154,7 @@ spec:
 
 ---
 
-### 8. **Ingress**
+### 9. **Ingress**
 El **Ingress** es un recurso que proporciona reglas para enrutar el tráfico HTTP y HTTPS externo hacia los servicios de un clúster.
 
 **Descripción**: Ofrece un punto de entrada más avanzado y flexible que los servicios, permitiendo funcionalidades como el balanceo de carga, terminación SSL y rutas basadas en la URL.
@@ -181,7 +181,7 @@ spec:
 
 ---
 
-### 9. **DaemonSet**
+### 10. **DaemonSet**
 Un **DaemonSet** garantiza que un Pod específico se ejecute en todos (o en un subconjunto) de los nodos del clúster.
 
 **Descripción**: Se utiliza para implementar tareas que deben ejecutarse en cada nodo del clúster, como agentes de monitoreo o de almacenamiento.
@@ -208,7 +208,7 @@ spec:
 
 ---
 
-### 10. **StatefulSet**
+### 11. **StatefulSet**
 Un **StatefulSet** gestiona el despliegue y el escalado de un conjunto de Pods con identidad persistente.
 
 **Descripción**: Es útil para aplicaciones que requieren un almacenamiento persistente, identificación estable y orden en el despliegue y actualización de Pods, como bases de datos.
@@ -239,7 +239,7 @@ spec:
 
 ---
 
-### 11. **Job**
+### 12. **Job**
 Un **Job** crea uno o más Pods y asegura que un número específico de ellos terminen con éxito. Se utiliza para tareas temporales o de ejecución única.
 
 **Descripción**: Ejecuta un conjunto de Pods hasta que completan su tarea, garantizando que un número específico de intentos tengan éxito.
@@ -262,7 +262,7 @@ spec:
 
 ---
 
-### 12. **CronJob**
+### 13. **CronJob**
 Un **CronJob** es similar a un Job, pero se ejecuta de manera programada basado en un cron.
 
 **Descripción**: Permite ejecutar Jobs de forma recurrente en horarios o intervalos predefinidos.
