@@ -102,8 +102,8 @@ Para poder crear un servicio Registry se necesitan los certificados SSL. Para re
 Debemos primero que todo crear los certificados:
 
 ```bash
-[root@master1 registry]# mkdir certs
-[root@master1 registry]# openssl req -newkey rsa:4096 -nodes -sha256 -keyout ./certs/registry.key -addext "subjectAltName = OPCION" -x509 -days 3650 -out ./certs/registry.crt
+mkdir certs
+openssl req -newkey rsa:4096 -nodes -sha256 -keyout ./certs/registry.key -addext "subjectAltName = OPCION" -x509 -days 3650 -out ./certs/registry.crt
 ```
 
 - **OPCION**: Puede tener dos posibles valores. El primero **DNS:HOSTNAME** donde HOSTNAME es el nombre del servidor al que se apunta o **IP:IP_SERVIDOR** donde IP_SERVIDOR es una IP balanceada dentro del cluster
